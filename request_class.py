@@ -1,13 +1,18 @@
+from exceptions import InvalidStorageName
+
+
 class Request():
-    def __init__(self, all_storages, request):
-        self.all_atorages = all_storages
-        data = request.split()
-        self.where = data[4]
-        self.to = data[6]
-        self.amount = data[1]
+    """ Разбиваем запрос по атрибутам. Проверяем существуют ли такие хранилища"""
+    def __init__(self, storages, request):
+        self.storages = storages
+        data = request.lower().split(' ')
+        if len(data) != 7:
+            # raise InvalidRequest
+            pass
+        self.departure = data[4]
+        self.destination = data[6]
+        self.amount = int(data[1])
         self.product = data[2]
 
-
-
-req = Request(['str', 'prt'], 'Доставить 3 печеньки из склад в магазин')
-print(req.to)
+        if self.departure not in storages and self.destination not in storages:
+            raise InvalidStorageName
